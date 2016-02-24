@@ -19,5 +19,7 @@ public class GUIController {
 		
 		model.drone.getVideoManager().addImageListener(gui);
 		
+		//lol
+		
 	}
 }
