@@ -1,6 +1,7 @@
 package iDrone;
 
 import de.yadrone.base.*;
+import de.yadrone.base.command.VideoCodec;
 
 public class IDrone {
 	DroneData model;
@@ -10,10 +11,12 @@ public class IDrone {
 	
 	public IDrone(){
 		model = new DroneData();
+		
 		//GUI
 		guiController = new GUIController(model);
 		analysis = new ImageAnalysis(model);
 		ai = new AI(model);
+		ai.start();
 
 	}
 
