@@ -29,6 +29,7 @@ public class AI extends Thread {
 
 			case START:
 				model.drone.start();
+				model.drone.reset();
 				model.setState(DroneData.state_e.DEFAULT);
 				break;
 
