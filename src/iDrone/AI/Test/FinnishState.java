@@ -1,15 +1,18 @@
 package iDrone.AI.Test;
 
+import iDrone.DroneData;
 import iDrone.AI.*;
 
 public class FinnishState extends State{
 
-	public FinnishState() {
-		super(new AIThread(){
+	public FinnishState(DroneData model) {
+		super(model, new AIThread(model){
 
 			@Override
-			public void act() {
+			protected void act() {
 				System.out.println("Finnish State");
+				
+				running = false;
 			}
 			
 		});

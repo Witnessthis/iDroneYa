@@ -1,15 +1,21 @@
 package iDrone.AI;
 
+import iDrone.DroneData;
+
 public abstract class State {
-	AIThread stateAI;
+	protected AIThread stateAI;
+	protected DroneData model;
 	
-	public State(AIThread stateAI){
+	public State(DroneData model, AIThread stateAI){
+		this.model = model;
 		this.stateAI = stateAI;
 	}
 	
 	public void shutDown() {		
 		stateAI.running = false;
 		stateAI.interrupt();
+		
+		//TODO should optimally not wait for join
 		try {
 			stateAI.join();
 		} catch (InterruptedException e) {
@@ -23,7 +29,11 @@ public abstract class State {
 	public abstract int nextTransition();
 
 	public void startUp() {
-		stateAI.running = true;
-		stateAI.start();
+		if(stateAI.getState() == Thread.State.NEW){
+			stateAI.running = true;
+			stateAI.start();
+		}
+		
+		//TODO restart old thread
 	}
 }

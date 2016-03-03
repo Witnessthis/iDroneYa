@@ -63,4 +63,8 @@ public class GUIController {
 		System.out.println("Hover");
 		model.setState(DroneData.state_e.HOVER);
 	}
+
+	public void testTarget() {
+		model.setHasTarget(!model.hasTarget());
+	}
 }

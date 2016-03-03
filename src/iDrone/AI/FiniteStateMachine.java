@@ -8,6 +8,8 @@ public abstract class FiniteStateMachine {
 	public FiniteStateMachine(State[] states){
 		this.states = states;
 		currentState = 0;
+		
+		states[currentState].startUp();
 	}
 
 	public void shutDown() {
@@ -26,14 +28,18 @@ public abstract class FiniteStateMachine {
 		states[currentState].shutDown();
 		currentState = nextState;
 		
+		states[currentState].startUp();
+		
 		//do not start up the new state if we could transition right away
+		/*
 		int newState = states[nextState].nextTransition();
-		if(newState >= 0){
+		if(newState < 0){//cannot transition further yet
 			states[currentState].startUp();
 		}
 		else{
 			transition(newState);
 		}
+		*/
 		
 	}
 }

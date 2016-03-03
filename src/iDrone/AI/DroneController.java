@@ -16,10 +16,14 @@ public class DroneController implements Observer{
 		
 		fsm = null;
 		changeStrategy(model.getStrategy());
+		
+		model.addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("DroneController notified");
+		
 		if(fsm != null){
 			fsm.update();
 		}
@@ -43,7 +47,7 @@ public class DroneController implements Observer{
 				break;
 				
 			case TEST_STRATEGY:
-				fsm = new TestStrategy();
+				fsm = new TestStrategy(model);
 				break;
 		}
 	}

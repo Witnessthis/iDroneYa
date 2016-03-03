@@ -33,8 +33,21 @@ public class GUI extends JFrame implements ImageListener{
 		JButton landButton;
 		JButton hoverButton;
 		
+		JButton testTargetAcquiredButton;
+		
 		
 		public GUIPanel(){
+			testTargetAcquiredButton = new JButton("Focus Target");
+			testTargetAcquiredButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					controller.testTarget();
+				}
+			});
+			add(testTargetAcquiredButton);
+			
+			
+			/*
 			hoverButton = new JButton("Hover");
 			hoverButton.addActionListener(new ActionListener() {
 				@Override
@@ -107,6 +120,7 @@ public class GUI extends JFrame implements ImageListener{
 				}
 			});
 			add(stopButton);
+			*/
 		}
 		
 		
