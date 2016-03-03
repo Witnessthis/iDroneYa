@@ -2,21 +2,27 @@ package iDrone;
 
 import de.yadrone.base.*;
 import de.yadrone.base.command.VideoCodec;
+import iDrone.AI.AI;
+import iDrone.AI.DroneController;
+import iDrone.GUI.GUIController;
 
 public class IDrone {
 	DroneData model;
+	
 	GUIController guiController;
 	ImageAnalysis analysis;
-	AI ai;
+	DroneController AIController;
 	
 	public IDrone(){
 		model = new DroneData();
 		
-		//GUI
 		guiController = new GUIController(model);
 		analysis = new ImageAnalysis(model);
-		ai = new AI(model);
+		AIController = new DroneController(model);
+		
+		AI ai = new AI(model);
 		ai.start();
+
 
 	}
 

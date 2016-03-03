@@ -1,4 +1,4 @@
-package iDrone;
+package iDrone.GUI;
 
 import java.awt.Button;
 import java.awt.Graphics;

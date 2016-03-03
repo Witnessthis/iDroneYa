@@ -1,4 +1,7 @@
-package iDrone;
+package iDrone.AI;
+
+import iDrone.DroneData;
+import iDrone.DroneData.state_e;
 
 public class AI extends Thread {
 	DroneData model;
@@ -7,8 +10,6 @@ public class AI extends Thread {
 
 	public AI(DroneData model) {
 		this.model = model;
-		this.droneControl = new DroneController();
-
 	}
 
 	@Override

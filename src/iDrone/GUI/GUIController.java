@@ -1,6 +1,9 @@
-package iDrone;
+package iDrone.GUI;
 
 import javax.swing.JFrame;
+
+import iDrone.DroneData;
+import iDrone.DroneData.state_e;
 
 public class GUIController {
 	DroneData model;
