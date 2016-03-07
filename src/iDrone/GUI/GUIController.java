@@ -15,7 +15,7 @@ public class GUIController {
 		gui = new GUI(this);
 		gui.setTitle("iDrone");
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gui.setSize(1280, 720);
+		gui.setSize(GUI.fWidth, GUI.fHeight);
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
