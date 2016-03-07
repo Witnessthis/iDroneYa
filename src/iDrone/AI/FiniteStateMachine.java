@@ -15,6 +15,7 @@ public abstract class FiniteStateMachine {
 	}
 
 	public void shutDown() {
+		System.out.println("FSM shut down");
 		states[currentState].awaitTransition();
 		ait.running = false;
 		ait.interrupt();		

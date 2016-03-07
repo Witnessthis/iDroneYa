@@ -26,7 +26,8 @@ public class GUIController {
 	
 	public void redAlert(){
 		System.out.println("Red Alert");
-		model.setState(DroneData.state_e.EMERGENCY);
+		//model.setState(DroneData.state_e.EMERGENCY);
+		model.setStrategy(DroneData.strategy_e.EMERGENCY);
 	}
 
 	public void takeOff() {

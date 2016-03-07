@@ -11,6 +11,7 @@ public class DroneData extends Observable{
 	
 	private strategy_e currentStrategy;
 	public enum strategy_e{TEST_STRATEGY, MANUAL_CONTROL, EMERGENCY}
+	public boolean strategyChanged = false;
 	
 	private boolean isFlying = false;
 	
@@ -38,7 +39,14 @@ public class DroneData extends Observable{
 	}
 	
 	public synchronized void setStrategy(strategy_e strategy){
-		currentStrategy = strategy;		
+		if(currentStrategy == strategy_e.EMERGENCY){
+			//do not let program leave emergency state
+			return;
+		}
+		
+		currentStrategy = strategy;
+		strategyChanged = true;
+		
 		notifyModelChanged();
 	}
 	

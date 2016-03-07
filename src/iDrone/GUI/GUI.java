@@ -5,7 +5,11 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -37,6 +41,31 @@ public class GUI extends JFrame implements ImageListener{
 		
 		
 		public GUIPanel(){
+			BufferedImage emergencyImage = null;
+			String path = "src" + File.separator + "iDrone" + File.separator + "GUI" + File.separator + "panic.png";
+			System.out.println(path);
+			try {
+				emergencyImage = ImageIO.read(new File(path));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				emergencyImage = null;
+			}
+			
+			if(emergencyImage != null){
+				redAlertButton = new JButton(new ImageIcon(emergencyImage));
+			}
+			else{
+				redAlertButton = new JButton("Emergency");
+			}
+			redAlertButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					controller.redAlert();		
+				}
+			});;
+			add(redAlertButton);
+			
 			testTargetAcquiredButton = new JButton("Focus Target");
 			testTargetAcquiredButton.addActionListener(new ActionListener() {
 				@Override
@@ -83,16 +112,6 @@ public class GUI extends JFrame implements ImageListener{
 				}
 			});
 			add(landButton);
-			
-			redAlertButton = new JButton("Red Alert");
-			redAlertButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					controller.redAlert();		
-				}
-			});;
-			add(redAlertButton);
-			
 			
 			takeOffButton = new JButton("Take Off");
 			takeOffButton.addActionListener(new ActionListener() {

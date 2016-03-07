@@ -23,8 +23,12 @@ public class DroneController implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println("DroneController notified");
+		System.out.println("change strategy: " + model.strategyChanged);
 		
-		if(fsm != null){
+		if(model.strategyChanged){
+			changeStrategy(model.getStrategy());
+		}
+		else if(fsm != null){
 			fsm.update();
 		}
 	}
@@ -50,5 +54,7 @@ public class DroneController implements Observer{
 				fsm = new TestStrategy(model);
 				break;
 		}
+		
+		model.strategyChanged = false;
 	}
 }
