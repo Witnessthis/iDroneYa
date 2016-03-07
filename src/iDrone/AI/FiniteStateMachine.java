@@ -3,43 +3,82 @@ package iDrone.AI;
 public abstract class FiniteStateMachine {	
 	
 	private State[] states;
-	private int currentState;
+	private volatile int currentState;
+	private FSMThread ait;
 	
 	public FiniteStateMachine(State[] states){
 		this.states = states;
 		currentState = 0;
 		
-		states[currentState].startUp();
+		ait = new FSMThread();
+		ait.start();
 	}
 
 	public void shutDown() {
-		states[currentState].shutDown();
+		states[currentState].awaitTransition();
+		ait.running = false;
+		ait.interrupt();		
 	}
 
 	public void update() {
 		int nextState = states[currentState].nextTransition();
 		
+		System.out.println("new state = " + nextState);
+		
 		if(nextState >= 0){
-			transition(nextState);
+			System.out.println("new state = " + nextState);
+			
+			//stop current state
+			states[currentState].awaitTransition();
+			ait.interrupt();
+			
+			//reset state before it can be reached by thread
+			states[nextState].resetState();
+			currentState = nextState;
+			
+			//recursively transition to next state if possible
+			update();
 		}
 	}
+	
+	private class FSMThread extends Thread implements IFSMThread{
+		private volatile boolean running = true;
+		
+		@Override
+		public void run(){
+			while(running){
+				//currentState may change during execution of loop
+				int state = currentState; 
+				
+				if(states[state].mayAct()){
+					states[state].act(this);
+				}
+			}
+		}
 
-	private void transition(int nextState) {
-		states[currentState].shutDown();
-		currentState = nextState;
-		
-		states[currentState].startUp();
-		
-		//do not start up the new state if we could transition right away
-		/*
-		int newState = states[nextState].nextTransition();
-		if(newState < 0){//cannot transition further yet
-			states[currentState].startUp();
+		@Override
+		public boolean AIwait(int t) {
+			if(!running || interrupted()){
+				System.out.println("was interrupted");
+				return true;
+			}
+			
+			if(t > 0){
+				try {
+					Thread.sleep(t);
+				} catch (InterruptedException e) {
+					//reset interrupt flag
+					interrupted();
+				}
+			}
+						
+			return false;
 		}
-		else{
-			transition(newState);
+
+		@Override
+		public boolean isShuttingDown() {
+			return !running;
 		}
-		*/
-		
+
 	}
 }

@@ -1,26 +1,14 @@
 package iDrone.AI.Test;
 
 import iDrone.DroneData;
-import iDrone.AI.AIThread;
+import iDrone.AI.IFSMThread;
 import iDrone.AI.State;
 import iDrone.AI.Test.TestStrategy.state_e;
 
 public class SearchForTargetState extends State{
 
 	public SearchForTargetState(DroneData model) {
-		super(model, new AIThread(model) {
-			
-			@Override
-			protected void act() {
-				System.out.println("Searching for target...");
-				
-				model.drone.spinLeft();
-				AIwait(3000);
-				
-				model.drone.backward();
-				AIwait(2000);
-			}
-		});
+		super(model);
 	}
 
 	@Override
@@ -30,6 +18,15 @@ public class SearchForTargetState extends State{
 		}
 		
 		return -1;
+	}
+
+	@Override
+	public void act(IFSMThread ait) {
+		System.out.println("Searching for target...");
+		
+		spinLeft(ait, 3000);
+		
+		backward(ait, 2000);
 	}
 	
 }

@@ -3,28 +3,14 @@ package iDrone.AI.Test;
 import com.sun.org.apache.regexp.internal.recompile;
 
 import iDrone.DroneData;
-import iDrone.AI.AIThread;
+import iDrone.AI.IFSMThread;
 import iDrone.AI.State;
 import iDrone.AI.Test.TestStrategy.state_e;
 
 public class FindLandingSpotState extends State{
 
 	public FindLandingSpotState(DroneData model) {
-		super(model, new AIThread(model) {
-			
-			@Override
-			protected void act() {
-				model.drone.setVerticalCamera();
-				AIwait(1000);
-				
-				//lol whatever
-				
-				
-				model.drone.landing();
-				AIwait(2000);
-				model.setFlying(false);
-			}
-		});
+		super(model);
 	}
 
 	@Override
@@ -34,6 +20,18 @@ public class FindLandingSpotState extends State{
 		}
 		
 		return -1;
+	}
+
+	@Override
+	public void act(IFSMThread ait) {
+		model.drone.setVerticalCamera();
+		AIwait(ait, 1000);
+		
+		//lol whatever
+		
+		landing(ait, 4000);
+		
+		awaitTransition();
 	}
 
 }

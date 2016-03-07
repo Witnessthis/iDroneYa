@@ -5,22 +5,21 @@ import iDrone.AI.*;
 
 public class FinnishState extends State{
 
+	
 	public FinnishState(DroneData model) {
-		super(model, new AIThread(model){
-
-			@Override
-			protected void act() {
-				System.out.println("Finnish State");
-				
-				running = false;
-			}
-			
-		});
+		super(model);
 	}
 
 	@Override
 	public int nextTransition() {
 		return -1;
+	}
+
+	@Override
+	public void act(IFSMThread ait) {
+		System.out.println("Finnish State");
+		
+		awaitTransition();
 	}
 
 }

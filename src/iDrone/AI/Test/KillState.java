@@ -7,15 +7,7 @@ import iDrone.AI.Test.TestStrategy.state_e;
 public class KillState extends State{
 
 	public KillState(DroneData model) {
-		super(model, new AIThread(model) {
-			
-			@Override
-			protected void act() {
-				System.out.println("Firing Missiles");
-				model.fireMissile();
-				AIwait(500);
-			}
-		});
+		super(model);
 	}
 
 	@Override
@@ -28,6 +20,17 @@ public class KillState extends State{
 		}
 		
 		return -1;
+	}
+
+	@Override
+	public void act(IFSMThread ait) {
+		System.out.println("Firing Missiles");
+		
+		freeze(ait, 0);
+		
+		model.fireMissile();
+		
+		AIwait(ait, 500);
 	}
 
 }
