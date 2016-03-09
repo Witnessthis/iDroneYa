@@ -29,7 +29,7 @@ public class StartState extends State{
 		System.out.println("start test " + model.isFlying());
 		if(!model.isFlying()){
 			System.out.println("start test takeOff");
-			takeOff(ait, 4000);
+			takeOff(ait, 8000);
 		}
 		
 		hover(ait, 0);

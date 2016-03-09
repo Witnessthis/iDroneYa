@@ -6,6 +6,7 @@ import java.util.Observer;
 import iDrone.DroneData;
 import iDrone.AI.Test.TestStrategy;
 import iDrone.DroneData.strategy_e;
+import iDrone.courier.Courier;
 
 public class DroneController implements Observer{
 	DroneData model;
@@ -42,7 +43,9 @@ public class DroneController implements Observer{
 		
 		switch(strategy){
 			case EMERGENCY:
-				model.drone.getCommandManager().emergency();
+				//model.drone.getCommandManager().emergency();
+				model.drone.freeze();
+				model.drone.landing();
 				break;
 			
 			case MANUAL_CONTROL:
@@ -52,6 +55,10 @@ public class DroneController implements Observer{
 				
 			case TEST_STRATEGY:
 				fsm = new TestStrategy(model);
+				break;
+				
+			case COURIER:
+				fsm= new Courier(model);
 				break;
 		}
 		

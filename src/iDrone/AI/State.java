@@ -90,7 +90,7 @@ public abstract class State {
 			return;
 		}
 		
-		//model.drone.backward();
+		model.drone.backward();
 		
 		AIwait(ait, t);
 	};
@@ -110,7 +110,7 @@ public abstract class State {
 			return;
 		}
 		
-		//model.drone.spinLeft();
+		model.drone.spinLeft();
 		
 		AIwait(ait, t);
 	};

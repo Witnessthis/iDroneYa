@@ -24,9 +24,9 @@ public class SearchForTargetState extends State{
 	public void act(IFSMThread ait) {
 		System.out.println("Searching for target...");
 		
-		spinLeft(ait, 3000);
+		spinLeft(ait, 10000);
 		
-		backward(ait, 2000);
+		backward(ait, 1000);
 	}
 	
 }

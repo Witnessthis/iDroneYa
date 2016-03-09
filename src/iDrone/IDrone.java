@@ -20,8 +20,8 @@ public class IDrone {
 		analysis = new ImageAnalysis(model);
 		AIController = new DroneController(model);
 		
-		AI ai = new AI(model);
-		ai.start();
+		//AI ai = new AI(model);
+		//ai.start();
 
 
 	}
