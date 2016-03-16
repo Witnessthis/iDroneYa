@@ -59,6 +59,16 @@ public class GUIController {
 		System.out.println("Spin Right");
 		model.setState(DroneData.state_e.SPIN_RIGHT);
 	}
+	
+	public void forward() {
+		System.out.println("Spin Left");
+		model.setState(DroneData.state_e.FORWARD);
+	}
+
+	public void backward() {
+		System.out.println("Spin Right");
+		model.setState(DroneData.state_e.BACKWARD);
+	}
 
 	public void hover() {
 		System.out.println("Hover");

@@ -64,6 +64,16 @@ public class AI extends Thread {
 				model.drone.landing();
 				model.setState(DroneData.state_e.DEFAULT);
 				break;
+				
+			case FORWARD:
+				model.drone.forward();
+				model.setState(DroneData.state_e.DEFAULT);
+				break;
+				
+			case BACKWARD:
+				model.drone.backward();
+				model.setState(DroneData.state_e.DEFAULT);
+				break;
 
 			case STOP:
 				model.drone.stop();

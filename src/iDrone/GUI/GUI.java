@@ -35,6 +35,8 @@ public class GUI extends JFrame implements ImageListener{
 	JButton spinLeftButton;
 	JButton landButton;
 	JButton hoverButton;
+	JButton forwardButton;
+	JButton backwardButton;
 	
 	JButton testTargetAcquiredButton;
 	
@@ -116,6 +118,88 @@ public class GUI extends JFrame implements ImageListener{
 			}
 		});
 		bottomPanel.add(testTargetAcquiredButton);
+		
+		
+		hoverButton = new JButton("Hover");
+		hoverButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.hover();
+			}
+		});
+		bottomPanel.add(hoverButton);
+		
+		spinRightButton = new JButton("Spin Right");
+		spinRightButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.spinRight();
+			}
+		});
+		bottomPanel.add(spinRightButton);
+		
+		spinLeftButton = new JButton("Spin Left");
+		spinLeftButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.spinLeft();
+			}
+		});
+		bottomPanel.add(spinLeftButton);
+		
+		landButton = new JButton("Land");
+		landButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.land();
+			}
+		});
+		bottomPanel.add(landButton);
+		
+		takeOffButton = new JButton("Take Off");
+		takeOffButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.takeOff();
+			}
+		});
+		bottomPanel.add(takeOffButton);
+		
+		startButton = new JButton("Start");
+		startButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.start();
+			}
+		});
+		bottomPanel.add(startButton);
+		
+		stopButton = new JButton("Stop");
+		stopButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.stop();
+			}
+		});
+		bottomPanel.add(stopButton);
+		
+		forwardButton = new JButton("Forward");
+		forwardButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.forward();
+			}
+		});
+		bottomPanel.add(forwardButton);
+		
+		backwardButton = new JButton("backward");
+		backwardButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.backward();
+			}
+		});
+		bottomPanel.add(backwardButton);
 	}
 	
 	@Override

@@ -22,9 +22,7 @@ public abstract class FiniteStateMachine {
 	}
 
 	public void update() {
-		int nextState = states[currentState].nextTransition();
-		
-		System.out.println("new state = " + nextState);
+		int nextState = states[currentState].nextTransition();	
 		
 		if(nextState >= 0){
 			System.out.println("new state = " + nextState);

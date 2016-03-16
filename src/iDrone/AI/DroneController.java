@@ -23,8 +23,8 @@ public class DroneController implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("DroneController notified");
-		System.out.println("change strategy: " + model.strategyChanged);
+		//System.out.println("DroneController notified");
+		//System.out.println("change strategy: " + model.strategyChanged);
 		
 		if(model.strategyChanged){
 			changeStrategy(model.getStrategy());
