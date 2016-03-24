@@ -4,9 +4,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import iDrone.DroneData;
+import iDrone.AI.Courier.Courier;
+import iDrone.AI.PositionTest.PositionTestStrategy;
 import iDrone.AI.Test.TestStrategy;
 import iDrone.DroneData.strategy_e;
-import iDrone.courier.Courier;
 
 public class DroneController implements Observer{
 	DroneData model;
@@ -51,6 +52,10 @@ public class DroneController implements Observer{
 			case MANUAL_CONTROL:
 				//TODO
 				model.drone.freeze();
+				break;
+				
+			case POSITION_TEST:
+				fsm = new PositionTestStrategy(model);
 				break;
 				
 			case TEST_STRATEGY:

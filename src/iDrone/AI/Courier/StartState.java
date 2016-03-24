@@ -1,4 +1,4 @@
-package iDrone.courier;
+package iDrone.AI.Courier;
 
 import de.yadrone.base.navdata.DroneState;
 import iDrone.DroneData;

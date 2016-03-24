@@ -1,4 +1,4 @@
-package iDrone.courier;
+package iDrone.AI.Courier;
 
 import iDrone.DroneData;
 import iDrone.AI.*;

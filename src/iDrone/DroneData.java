@@ -17,8 +17,7 @@ import de.yadrone.base.navdata.MagnetoListener;
 import de.yadrone.base.navdata.StateListener;
 import de.yadrone.base.navdata.VelocityListener;
 
-public class DroneData extends Observable
-		implements /* StateListener, */ AltitudeListener/* , AcceleroListener */, VelocityListener, MagnetoListener {
+public class DroneData extends Observable implements AltitudeListener, VelocityListener, MagnetoListener {
 	public ARDrone drone;
 
 	public final int maxAltitude = 1500;
@@ -26,20 +25,20 @@ public class DroneData extends Observable
 	private strategy_e currentStrategy;
 
 	public enum strategy_e {
-		TEST_STRATEGY, MANUAL_CONTROL, EMERGENCY, COURIER
+		TEST_STRATEGY, POSITION_TEST, MANUAL_CONTROL, EMERGENCY, COURIER
 	}
 
 	public boolean strategyChanged = false;
 
 	private volatile DroneState droneState = null;
-	private boolean isFlying = false;
+	private boolean isFlying = false; //TODO start using the internal state of the drone
 	private volatile int currentAltitude = 0;
 
 	// test fields
 	private boolean targetFound = false;
 	private int missiles = 18;
 	
-	//position
+	//position fields
 	/* approx position is measured from an initial position of 0;0
 	and a direction which defines the direction of the x-axis */
 	private MagnetoData magnetoData; //a null value indicates that the initialHeading is no longer correct
@@ -50,8 +49,6 @@ public class DroneData extends Observable
 	private float vy;
 	private long time;
 	
-	
-
 	public DroneData() {
 		resetPositionalData();
 		
@@ -60,21 +57,20 @@ public class DroneData extends Observable
 		drone.start();
 		drone.reset();
 
-		// drone.getNavDataManager().addStateListener(this);
+		//We sometimes need to register as a listener twice before YADrone starts notifying as expected
 		drone.getNavDataManager().addAltitudeListener(this);
-		// drone.getNavDataManager().addAcceleroListener(this);
 		drone.getNavDataManager().addVelocityListener(this);
 		drone.getNavDataManager().addMagnetoListener(this);
-		// drone.getNavDataManager().addStateListener(this);
+		
 		drone.getNavDataManager().addAltitudeListener(this);
-		// drone.getNavDataManager().addAcceleroListener(this);
 		drone.getNavDataManager().addVelocityListener(this);
 		drone.getNavDataManager().addMagnetoListener(this);
+		
 		drone.getNavDataManager().removeAltitudeListener(this);
 		drone.getNavDataManager().removeVelocityListener(this);
 		drone.getNavDataManager().removeMagnetoListener(this);
 
-		setStrategy(strategy_e.MANUAL_CONTROL);
+		setStrategy(strategy_e.POSITION_TEST);
 	}
 	
 	private void resetPositionalData(){
@@ -88,8 +84,6 @@ public class DroneData extends Observable
 	}
 
 	private void notifyModelChanged() {
-		// System.out.println("model notifying");
-
 		setChanged();
 		notifyObservers();
 	}
@@ -115,8 +109,6 @@ public class DroneData extends Observable
 	}
 
 	public synchronized void setFlying(boolean isFlying) {
-		System.out.println("model flying");
-
 		this.isFlying = isFlying;
 		notifyModelChanged();
 	}
@@ -157,26 +149,13 @@ public class DroneData extends Observable
 		this.state = state;
 	}
 
-	/*
-	 * @Override public void controlStateChanged(ControlState arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void stateChanged(DroneState arg0) { droneState = arg0;
-	 * notifyModelChanged();
-	 * 
-	 * }
-	 */
-
 	public DroneState getDroneState() {
 		return droneState;
 	}
 
 	@Override
-	public void receivedAltitude(int arg0) {
-		//System.out.println("new altitude:" + arg0);
-		currentAltitude = arg0;
+	public void receivedAltitude(int alt) {
+		currentAltitude = alt;
 		notifyModelChanged();
 	}
 
@@ -190,18 +169,8 @@ public class DroneData extends Observable
 		return currentAltitude;
 	}
 
-	/*
-	 * @Override public void receivedPhysData(AcceleroPhysData arg0) {
-	 * System.out.println("PhysData: "+arg0); notifyModelChanged(); }
-	 * 
-	 * @Override public void receivedRawData(AcceleroRawData arg0) {
-	 * System.out.println("RawData: "+arg0); notifyModelChanged(); }
-	 */
-
 	@Override
 	public void received(MagnetoData md) {
-		//System.out.println("Magneto Data: " + md.getHeadingFusionUnwrapped());
-		
 		if(magnetoData == null){//positinal data has been reset
 			initialHeading = md.getHeadingFusionUnwrapped();
 		}
@@ -232,6 +201,10 @@ public class DroneData extends Observable
 		notifyModelChanged();
 	}
 	
+	//
+	//Position methods
+	//
+	
 	//assume vx is velocity in forward direction ie initialHeading
 	private void recalculatePosition(double vx, double vy, double angle, double t){
 		double sinA = Math.sin(angle);
@@ -239,5 +212,27 @@ public class DroneData extends Observable
 		
 		x += (vx * cosA + vy * sinA) * t;
 		y += (vy * cosA + vx * sinA) * t;
+	}
+	
+	//angle in degrees
+	public double angleFromInitialPos(){
+		//sinus relationen
+		return Math.asin(y / distFromInitialPos()) * (360.0 / 2.0*Math.PI);
+	}
+
+	public double distFromInitialPos(){
+		return Math.sqrt((x * x) + (y * y));
+	}
+	
+	public double getXPos() {
+		return x;
+	}
+
+	public double getYPos() {
+		return y;
+	}
+	
+	public MagnetoData getMagnetoData() {
+		return magnetoData;
 	}
 }
