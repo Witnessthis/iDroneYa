@@ -38,8 +38,23 @@ public class DroneData extends Observable
 	// test fields
 	private boolean targetFound = false;
 	private int missiles = 18;
+	
+	//position
+	/* approx position is measured from an initial position of 0;0
+	and a direction which defines the direction of the x-axis */
+	private MagnetoData magnetoData; //a null value indicates that the initialHeading is no longer correct
+	private double x;
+	private double y;
+	private float initialHeading;
+	private float vx;
+	private float vy;
+	private long time;
+	
+	
 
 	public DroneData() {
+		resetPositionalData();
+		
 		drone = new ARDrone();
 		drone.reset();
 		drone.start();
@@ -60,6 +75,16 @@ public class DroneData extends Observable
 		drone.getNavDataManager().removeMagnetoListener(this);
 
 		setStrategy(strategy_e.MANUAL_CONTROL);
+	}
+	
+	private void resetPositionalData(){
+		magnetoData = null;
+		initialHeading = 0;
+		x = 0;
+		y = 0;
+		vx = 0;
+		vy = 0;		
+		time = System.currentTimeMillis();
 	}
 
 	private void notifyModelChanged() {
@@ -174,16 +199,45 @@ public class DroneData extends Observable
 	 */
 
 	@Override
-	public void received(MagnetoData arg0) {
-		System.out.println("Magneto Data: " + arg0.getHeadingFusionUnwrapped());
+	public void received(MagnetoData md) {
+		//System.out.println("Magneto Data: " + md.getHeadingFusionUnwrapped());
+		
+		if(magnetoData == null){//positinal data has been reset
+			initialHeading = md.getHeadingFusionUnwrapped();
+		}
+		
+		magnetoData = md;
+		
 		notifyModelChanged();
-
 	}
 
 	@Override
-	public void velocityChanged(float arg0, float arg1, float arg2) {
-		//System.out.println("Velocity Changed: X: " + arg0 + "Y: " + arg1 + "Z: " + arg2);
-		notifyModelChanged();
+	public void velocityChanged(float x, float y, float z) {
+		long newTime = System.currentTimeMillis();
+		long timeFlown = newTime - time;
+		time = newTime;
+		
+		float oldVx = vx;
+		vx = x;
+		
+		float oldVy = vy;
+		vy = y;
+		
+		//recalculate approximate position using old velocity
+		//the initial heading is required 
+		if(magnetoData != null){
+			recalculatePosition(oldVx, oldVy, magnetoData.getHeadingFusionUnwrapped() - initialHeading, timeFlown);
+		}
 
+		notifyModelChanged();
+	}
+	
+	//assume vx is velocity in forward direction ie initialHeading
+	private void recalculatePosition(double vx, double vy, double angle, double t){
+		double sinA = Math.sin(angle);
+		double cosA = Math.cos(angle);
+		
+		x += (vx * cosA + vy * sinA) * t;
+		y += (vy * cosA + vx * sinA) * t;
 	}
 }
