@@ -12,7 +12,7 @@ public class FlyForwardState extends State {
 
 	@Override
 	public int nextTransition() {
-		if(model.getXPos() > 3000){
+		if(model.getXPos() > 1000){
 			return PositionTestStrategy.state_e.GETLOST.ordinal();
 		}
 		

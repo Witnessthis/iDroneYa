@@ -16,11 +16,11 @@ public class LandingState extends State{
 			return PositionTestStrategy.state_e.GOHOME.ordinal();
 		}
 		
-		if(!model.isFlying()){
+		else if(!model.isFlying()){
 			return PositionTestStrategy.state_e.FINNISHSTATE.ordinal();
 		}
 		
-		return 0;
+		return -1;
 	}
 
 	@Override

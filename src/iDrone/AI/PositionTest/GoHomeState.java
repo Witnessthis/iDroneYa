@@ -21,7 +21,7 @@ public class GoHomeState extends State{
 
 	@Override
 	public void act(IFSMThread ait) {
-		double angle = model.angleFromInitialPos() + 180.0 - model.getMagnetoData().getHeadingFusionUnwrapped();
+		double angle = model.angleFromInitialPos() + 180.0 - model.getMagnetoData().getHeadingFusionUnwrapped() - model.getInitialHeading();
 		
 		if(angle > 10){
 			spinRight(ait, 0);

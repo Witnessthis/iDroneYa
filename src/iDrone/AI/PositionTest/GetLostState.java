@@ -21,7 +21,7 @@ public class GetLostState extends State{
 
 	@Override
 	public void act(IFSMThread ait) {
-		goRight(ait, 2000);
+		goRight(ait, 500);
 		
 		spinRight(ait, 3000);
 		

@@ -70,7 +70,7 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 		drone.getNavDataManager().removeVelocityListener(this);
 		drone.getNavDataManager().removeMagnetoListener(this);
 
-		setStrategy(strategy_e.POSITION_TEST);
+		setStrategy(strategy_e.MANUAL_CONTROL);
 	}
 	
 	private void resetPositionalData(){
@@ -188,14 +188,23 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 		
 		float oldVx = vx;
 		vx = x;
-		
+		System.out.println("vx: "+vx);
 		float oldVy = vy;
 		vy = y;
+		System.out.println("vy: "+vy);
 		
 		//recalculate approximate position using old velocity
 		//the initial heading is required 
 		if(magnetoData != null){
-			recalculatePosition(oldVx, oldVy, magnetoData.getHeadingFusionUnwrapped() - initialHeading, timeFlown);
+			
+			double magnet = magnetoData.getHeadingFusionUnwrapped();
+			System.out.println(magnetoData.getHeadingUnwrapped());
+			System.out.println(magnetoData.getHeadingGyroUnwrapped());
+			System.out.println("magnetdata: "+magnet);
+			double angle =  magnet - initialHeading;
+			System.out.println("angle degrees: "+angle);
+			
+			recalculatePosition(oldVx, oldVy, (angle)*(Math.PI/180), timeFlown);
 		}
 
 		notifyModelChanged();
@@ -210,8 +219,11 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 		double sinA = Math.sin(angle);
 		double cosA = Math.cos(angle);
 		
-		x += (vx * cosA + vy * sinA) * t;
-		y += (vy * cosA + vx * sinA) * t;
+		x += (vx * cosA + vy * sinA) * (t/1000);
+		y += (vy * cosA + vx * sinA) * (t/1000);
+		System.out.println("y: "+y);
+		System.out.println("x: "+x);
+		System.out.println("angle radians: "+angle);
 	}
 	
 	//angle in degrees
@@ -221,7 +233,11 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 	}
 
 	public double distFromInitialPos(){
-		return Math.sqrt((x * x) + (y * y));
+		
+		double dist = Math.sqrt((x * x) + (y * y));
+		System.out.println("distance: "+dist);
+		
+		return dist;
 	}
 	
 	public double getXPos() {
@@ -234,5 +250,9 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 	
 	public MagnetoData getMagnetoData() {
 		return magnetoData;
+	}
+
+	public float getInitialHeading() {
+		return initialHeading;
 	}
 }
