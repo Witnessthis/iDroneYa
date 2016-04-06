@@ -10,6 +10,7 @@ import de.yadrone.base.navdata.AcceleroPhysData;
 import de.yadrone.base.navdata.AcceleroRawData;
 import de.yadrone.base.navdata.Altitude;
 import de.yadrone.base.navdata.AltitudeListener;
+import de.yadrone.base.navdata.AttitudeListener;
 import de.yadrone.base.navdata.ControlState;
 import de.yadrone.base.navdata.DroneState;
 import de.yadrone.base.navdata.MagnetoData;
@@ -17,7 +18,7 @@ import de.yadrone.base.navdata.MagnetoListener;
 import de.yadrone.base.navdata.StateListener;
 import de.yadrone.base.navdata.VelocityListener;
 
-public class DroneData extends Observable implements AltitudeListener, VelocityListener, MagnetoListener {
+public class DroneData extends Observable implements AltitudeListener, VelocityListener, MagnetoListener, AttitudeListener {
 	public ARDrone drone;
 
 	public final int maxAltitude = 1500;
@@ -61,16 +62,21 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 		drone.getNavDataManager().addAltitudeListener(this);
 		drone.getNavDataManager().addVelocityListener(this);
 		drone.getNavDataManager().addMagnetoListener(this);
+		drone.getNavDataManager().addAttitudeListener(this);
 		
 		drone.getNavDataManager().addAltitudeListener(this);
 		drone.getNavDataManager().addVelocityListener(this);
 		drone.getNavDataManager().addMagnetoListener(this);
+		drone.getNavDataManager().addAttitudeListener(this);
 		
 		drone.getNavDataManager().removeAltitudeListener(this);
 		drone.getNavDataManager().removeVelocityListener(this);
 		drone.getNavDataManager().removeMagnetoListener(this);
-
+		drone.getNavDataManager().removeAttitudeListener(this);
+		
 		setStrategy(strategy_e.MANUAL_CONTROL);
+		
+		drone.setSpeed(10);
 	}
 	
 	private void resetPositionalData(){
@@ -138,7 +144,7 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 	private state_e state = state_e.DEFAULT;
 
 	public enum state_e {
-		START, STOP, LIFT_OFF, HOVER, SPIN_RIGHT, SPIN_LEFT, LAND, STATE_SHIFT, EMERGENCY, DEFAULT, FORWARD, BACKWARD
+		START, STOP, LIFT_OFF, HOVER, SPIN_RIGHT, SPIN_LEFT, LAND, STATE_SHIFT, EMERGENCY, DEFAULT, FORWARD, BACKWARD, RIGHT, LEFT, UP, DOWN
 	}
 
 	public synchronized state_e getState() {
@@ -173,6 +179,8 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 	public void received(MagnetoData md) {
 		if(magnetoData == null){//positinal data has been reset
 			initialHeading = md.getHeadingFusionUnwrapped();
+			
+			
 		}
 		
 		magnetoData = md;
@@ -254,5 +262,23 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 
 	public float getInitialHeading() {
 		return initialHeading;
+	}
+
+	@Override
+	public void attitudeUpdated(float arg0, float arg1) {
+		
+	}
+
+	@Override
+	public void attitudeUpdated(float arg0, float arg1, float arg2) {
+		System.out.println("Pitch: "+arg0);
+		System.out.println("Roll: "+arg1);
+		System.out.println("Yaw: "+arg2);
+	}
+
+	@Override
+	public void windCompensation(float arg0, float arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }

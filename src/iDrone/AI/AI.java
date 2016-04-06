@@ -74,9 +74,29 @@ public class AI extends Thread {
 				model.drone.backward();
 				model.setState(DroneData.state_e.DEFAULT);
 				break;
+				
+			case LEFT:
+				model.drone.goLeft();
+				model.setState(DroneData.state_e.DEFAULT);
+				break;
+				
+			case RIGHT:
+				model.drone.goRight();
+				model.setState(DroneData.state_e.DEFAULT);
+				break;
 
 			case STOP:
 				model.drone.stop();
+				model.setState(DroneData.state_e.DEFAULT);
+				break;
+				
+			case UP:
+				model.drone.up();
+				model.setState(DroneData.state_e.DEFAULT);
+				break;
+				
+			case DOWN:
+				model.drone.down();
 				model.setState(DroneData.state_e.DEFAULT);
 				break;
 
