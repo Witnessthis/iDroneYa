@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.List;
 
+/*
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfFloat;
@@ -14,10 +15,12 @@ import org.opencv.core.Scalar;
 import org.opencv.core.TermCriteria;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.video.Video;
+*/
 
 import de.yadrone.base.*;
 import de.yadrone.base.video.*;
-import javafx.scene.image.Image;
+
+//import javafx.scene.image.Image;
 
 
 public class ImageAnalysis implements ImageListener{
@@ -29,6 +32,7 @@ public class ImageAnalysis implements ImageListener{
 	double minDist = 20;
 	double qualitylevel = 0.01;
 	
+	/*
 	Mat oldFrame = new Mat();
 	MatOfPoint oldPts = new MatOfPoint();
 	
@@ -36,6 +40,7 @@ public class ImageAnalysis implements ImageListener{
 	int maxlevel=2;
 	
 	Scalar scalar = new Scalar(255,0,0); 
+	*/
 	
 	// *** OPENCV SLUT ***
 	
@@ -48,7 +53,7 @@ public class ImageAnalysis implements ImageListener{
 
 	@Override
 	public void imageUpdated(BufferedImage arg0) {
-		
+		/*
 		// Buffered image til matrice.
 		Mat frame = new Mat();
 		byte[] pixels = ((DataBufferByte) arg0.getRaster().getDataBuffer()).getData();
@@ -186,9 +191,10 @@ public class ImageAnalysis implements ImageListener{
 							
 							
 							
-		
+		*/
 	}
 	
+	/*
 	
 	// Kilde: http://www.codeproject.com/Tips/752511/How-to-Convert-Mat-to-BufferedImage-Vice-Versa
 	public static BufferedImage mat2Img(Mat in)
@@ -208,4 +214,5 @@ public class ImageAnalysis implements ImageListener{
         out.getRaster().setDataElements(0, 0, 320, 240, data);
         return out;
     } 
+    */
 }
