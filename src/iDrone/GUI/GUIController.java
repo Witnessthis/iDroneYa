@@ -19,9 +19,7 @@ public class GUIController {
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
-		
 		model.drone.getVideoManager().addImageListener(gui);
-		
 	}
 	
 	public void redAlert(){
@@ -77,5 +75,13 @@ public class GUIController {
 
 	public void testTarget() {
 		model.setHasTarget(!model.hasTarget());
+	}
+	
+	public double getXPos(){
+		return model.getXPos();
+	}
+	
+	public double getYPos(){
+		return model.getYPos();
 	}
 }

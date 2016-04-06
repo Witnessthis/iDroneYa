@@ -50,37 +50,60 @@ public class GUI extends JFrame implements ImageListener{
 		this.controller = ctrlr;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-		//mainPanel.setBackground(Color.CYAN);
+		mainPanel.setBackground(Color.CYAN);
 		
 		add(mainPanel);
 		
 		topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
-		//topPanel.setBackground(Color.BLACK);
+		topPanel.setBackground(Color.BLACK);
 		mainPanel.add(topPanel);
 		
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
-		//bottomPanel.setBackground(Color.WHITE);
+		bottomPanel.setBackground(Color.WHITE);
 		mainPanel.add(bottomPanel);
 		
 		topLeftPanel = new JPanel(){
+			int axisLength = 250;
+			int xO = 750;
+			int yO = 300;
+			double factor = axisLength / 5000.0;
+			
 			protected void paintComponent(Graphics g){
 				super.paintComponent(g);
 
 				if(image != null){
 					g.drawImage(image, 0, 0, null);
 				}
+				
+				//draw background
+				g.setColor(Color.WHITE);
+				g.fillRect(xO - axisLength, yO - axisLength, axisLength * 2, axisLength * 2);
+				
+				//draw axes
+				g.setColor(Color.BLACK);
+				g.drawLine(xO - axisLength, yO, xO + axisLength, yO);
+				g.drawLine(xO, yO - axisLength, xO, yO + axisLength);
+				
+				//draw labels
+				g.setColor(Color.BLACK);
+				g.drawString("Y", xO + 5, yO - axisLength + 10);
+				g.drawString("X", xO + axisLength - 10, yO - 10);
+				
+				//draw dot
+				g.setColor(Color.RED);
+				g.fillRect(xO + (int)(controller.getXPos() * factor) - 2, yO - (int)(controller.getYPos() * factor)- 2, 5, 5);
 			}
 		};
 		//topLeftPanel.setLayout(new BoxLayout(topLeftPanel, BoxLayout.PAGE_AXIS));
-		//topLeftPanel.setBackground(Color.GREEN);
+		topLeftPanel.setBackground(Color.GREEN);
 		topLeftPanel.setMinimumSize(new Dimension(fWidth/2, fHeight/ 2));
 		topPanel.add(topLeftPanel);
 		
 		topRightPanel = new JPanel();
 		//topRightPanel.setLayout(new BoxLayout(topRightPanel, BoxLayout.PAGE_AXIS));
-		//topRightPanel.setBackground(Color.RED);
+		topRightPanel.setBackground(Color.RED);
 		topRightPanel.setMaximumSize(new Dimension(250, fHeight));
 		topPanel.add(topRightPanel);
 		
