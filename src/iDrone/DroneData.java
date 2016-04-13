@@ -16,9 +16,10 @@ import de.yadrone.base.navdata.DroneState;
 import de.yadrone.base.navdata.MagnetoData;
 import de.yadrone.base.navdata.MagnetoListener;
 import de.yadrone.base.navdata.StateListener;
+import de.yadrone.base.navdata.TimeListener;
 import de.yadrone.base.navdata.VelocityListener;
 
-public class DroneData extends Observable implements AltitudeListener, VelocityListener, MagnetoListener, AttitudeListener {
+public class DroneData extends Observable implements TimeListener, AltitudeListener, VelocityListener, MagnetoListener, AttitudeListener {
 	public ARDrone drone;
 
 	public final int maxAltitude = 1500;
@@ -63,16 +64,19 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 		drone.getNavDataManager().addVelocityListener(this);
 		drone.getNavDataManager().addMagnetoListener(this);
 		drone.getNavDataManager().addAttitudeListener(this);
+		drone.getNavDataManager().addTimeListener(this);
 		
 		drone.getNavDataManager().addAltitudeListener(this);
 		drone.getNavDataManager().addVelocityListener(this);
 		drone.getNavDataManager().addMagnetoListener(this);
 		drone.getNavDataManager().addAttitudeListener(this);
+		drone.getNavDataManager().addTimeListener(this);
 		
 		drone.getNavDataManager().removeAltitudeListener(this);
 		drone.getNavDataManager().removeVelocityListener(this);
 		drone.getNavDataManager().removeMagnetoListener(this);
 		drone.getNavDataManager().removeAttitudeListener(this);
+		drone.getNavDataManager().removeTimeListener(this);
 		
 		setStrategy(strategy_e.MANUAL_CONTROL);
 		
@@ -162,6 +166,7 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 	@Override
 	public void receivedAltitude(int alt) {
 		currentAltitude = alt;
+		System.out.println("Alt: " + currentAltitude);
 		notifyModelChanged();
 	}
 
@@ -280,5 +285,11 @@ public class DroneData extends Observable implements AltitudeListener, VelocityL
 	public void windCompensation(float arg0, float arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void timeReceived(int arg0, int arg1) {
+		System.out.println("Sec: " + arg0);
+		System.out.println("uSec: " + arg1);
 	}
 }

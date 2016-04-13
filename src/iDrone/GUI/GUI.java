@@ -108,10 +108,10 @@ public class GUI extends JFrame implements ImageListener {
 
 				if (path.size() > 1) {
 					for (int i = 0; i < path.size() - 1; i++) {
-						g.drawLine((int) (path.get(i).getKey() * factor + 750),
-								(int) (path.get(i).getValue() * factor + 300),
-								(int) (path.get(i + 1).getKey() * factor + 750),
-								(int) (path.get(i + 1).getValue() * factor + 300));
+						g.drawLine((int) (path.get(i).getKey() * factor + xO),
+								(int) (path.get(i).getValue() * factor + yO),
+								(int) (path.get(i + 1).getKey() * factor + xO),
+								(int) (path.get(i + 1).getValue() * factor + yO));
 					}
 				}
 
