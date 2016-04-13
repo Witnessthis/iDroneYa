@@ -5,6 +5,7 @@ import de.yadrone.base.command.VideoCodec;
 import iDrone.AI.AI;
 import iDrone.AI.DroneController;
 import iDrone.GUI.GUIController;
+import iDrone.MotionInterpretation.ImageAnalysis;
 
 public class IDrone {
 	DroneData model;

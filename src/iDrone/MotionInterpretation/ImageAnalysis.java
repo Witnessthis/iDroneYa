@@ -1,4 +1,4 @@
-package iDrone;
+package iDrone.MotionInterpretation;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -19,6 +19,7 @@ import org.opencv.video.Video;
 
 import de.yadrone.base.*;
 import de.yadrone.base.video.*;
+import iDrone.DroneData;
 
 //import javafx.scene.image.Image;
 
