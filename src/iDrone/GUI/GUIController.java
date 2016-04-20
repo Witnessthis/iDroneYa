@@ -1,16 +1,23 @@
 package iDrone.GUI;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JFrame;
 
+import de.yadrone.base.ARDrone;
 import iDrone.DroneData;
 import iDrone.DroneData.state_e;
 
-public class GUIController {
+public class GUIController implements KeyListener{
 	DroneData model;
+	ARDrone drone;
 	GUI gui;
 	
 	public GUIController(DroneData model){
 		this.model = model;
+		this.drone = model.drone;
 		
 		gui = new GUI(this);
 		gui.setTitle("iDrone");
@@ -18,7 +25,9 @@ public class GUIController {
 		gui.setSize(GUI.fWidth, GUI.fHeight);
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
+		gui.setFocusable(true);
 		
+		gui.addKeyListener(this);
 		model.drone.getVideoManager().addImageListener(gui);
 	}
 	
@@ -103,5 +112,77 @@ public class GUIController {
 	
 	public double getYPos(){
 		return model.getYPos();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+//		System.out.println(e.getKeyCode());
+//		System.out.println(e.getKeyChar());
+//		System.out.println(e.getModifiersEx());
+		
+		boolean shiftflag = false;
+		if ((e.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0)
+		{
+			shiftflag = true;
+		}
+		
+		char key = e.getKeyChar();
+		
+		switch(key){
+			case KeyEvent.VK_LEFT:
+				if(shiftflag){
+					drone.spinLeft();
+				}else{
+					drone.goLeft();
+				}
+				
+				break;
+			case KeyEvent.VK_RIGHT:
+				if(shiftflag){
+					drone.spinRight();
+				}else{
+					drone.goRight();
+				}
+				break;
+			case KeyEvent.VK_UP :
+				if(shiftflag){
+					drone.up();
+				}else{
+					drone.forward();
+				}
+				break;
+			case KeyEvent.VK_DOWN :
+				if(shiftflag){
+					drone.down();
+				}else{
+					drone.backward();
+				}
+				break;
+			case KeyEvent.VK_SPACE :
+				drone.landing();
+				break;
+			case KeyEvent.VK_ENTER :
+				drone.takeOff();
+				break;
+				
+			case KeyEvent.VK_R :
+				drone.reset();
+				break;
+				
+			default:
+				break;
+
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		model.drone.hover();
 	}
 }

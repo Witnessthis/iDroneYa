@@ -285,6 +285,12 @@ public class GUI extends JFrame implements ImageListener {
 			}
 		});
 		bottomPanel.add(upButton);
+		
+		mainPanel.addKeyListener(controller);
+		topPanel.addKeyListener(controller);
+		topRightPanel.addKeyListener(controller);
+		topLeftPanel.addKeyListener(controller);
+		bottomPanel.addKeyListener(controller);
 	}
 
 	@Override

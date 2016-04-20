@@ -50,6 +50,7 @@ public class DroneData extends Observable implements TimeListener, AltitudeListe
 	private float vx;
 	private float vy;
 	private long time;
+	private long time2 = 0;
 	
 	public DroneData() {
 		resetPositionalData();
@@ -278,7 +279,7 @@ public class DroneData extends Observable implements TimeListener, AltitudeListe
 	public void attitudeUpdated(float arg0, float arg1, float arg2) {
 		System.out.println("Pitch: "+arg0);
 		System.out.println("Roll: "+arg1);
-		System.out.println("Yaw: "+arg2);
+		System.out.println("Yaw: "+arg2/1000);
 	}
 
 	@Override
@@ -289,7 +290,12 @@ public class DroneData extends Observable implements TimeListener, AltitudeListe
 
 	@Override
 	public void timeReceived(int arg0, int arg1) {
+		
+		long delta = arg0 - this.time2;
+		
+		this.time2 = arg0;
+		
 		System.out.println("Sec: " + arg0);
-		System.out.println("uSec: " + arg1);
+		System.out.println("delta: " + delta);
 	}
 }
