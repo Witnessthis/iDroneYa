@@ -5,6 +5,8 @@ import java.util.Observable;
 import com.sun.org.apache.regexp.internal.recompile;
 
 import de.yadrone.base.*;
+import de.yadrone.base.command.CalibrationCommand;
+import de.yadrone.base.command.Device;
 import de.yadrone.base.navdata.AcceleroListener;
 import de.yadrone.base.navdata.AcceleroPhysData;
 import de.yadrone.base.navdata.AcceleroRawData;
@@ -59,7 +61,7 @@ public class DroneData extends Observable implements TimeListener, AltitudeListe
 		drone.reset();
 		drone.start();
 		drone.reset();
-
+		
 		//We sometimes need to register as a listener twice before YADrone starts notifying as expected
 		drone.getNavDataManager().addAltitudeListener(this);
 		drone.getNavDataManager().addVelocityListener(this);

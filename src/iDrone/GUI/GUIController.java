@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import de.yadrone.base.ARDrone;
+import de.yadrone.base.command.CalibrationCommand;
+import de.yadrone.base.command.Device;
 import iDrone.DroneData;
 import iDrone.DroneData.state_e;
 
@@ -173,6 +175,10 @@ public class GUIController implements KeyListener{
 				
 			case KeyEvent.VK_R :
 				drone.reset();
+				break;
+				
+			case KeyEvent.VK_C:
+				drone.getCommandManager().setCommand(new CalibrationCommand(Device.MAGNETOMETER));
 				break;
 				
 			default:
